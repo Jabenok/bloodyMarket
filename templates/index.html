@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-container">
+    <h1>Добро пожаловать в BLOODYMARKET</h1>
+    <p>Торговая площадка для игроков World of Warcraft Classic</p>
+
+    <div class="main-image">
+        <img src="{{ url_for('static', filename='images/main.png') }}" alt="WoW Classic Market">
+    </div>
+</div>
+{% endblock %}

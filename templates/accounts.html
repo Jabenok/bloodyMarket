@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Аккаунты - BLOODYMARKET{% endblock %}
+
+{% block content %}
+<h1>Аккаунты WoW Classic</h1>
+
+<!-- Фильтры -->
+<form class="filters" method="get">
+    <label>
+        Сервер:
+        <select name="server">
+            <option value="">Все</option>
+            <option value="Firemaw (EU)" {% if request.args.get('server') == 'Firemaw (EU)' %}selected{% endif %}>Firemaw (EU)</option>
+            <option value="Gehennas (EU)" {% if request.args.get('server') == 'Gehennas (EU)' %}selected{% endif %}>Gehennas (EU)</option>
+            <option value="Mirage Raceway (EU)" {% if request.args.get('server') == 'Mirage Raceway (EU)' %}selected{% endif %}>Mirage Raceway (EU)</option>
+        </select>
+    </label>
+
+    <label>
+        Фракция:
+        <select name="faction">
+            <option value="">Любая</option>
+            <option value="Альянс" {% if request.args.get('faction') == 'Альянс' %}selected{% endif %}>Альянс</option>
+            <option value="Орда" {% if request.args.get('faction') == 'Орда' %}selected{% endif %}>Орда</option>
+        </select>
+    </label>
+
+    <label>
+        Класс:
+        <select name="class">
+            <option value="">Любой</option>
+            {% for cls in ["Воин","Маг","Жрец","Разбойник","Охотник","Чернокнижник","Друид","Паладин","Шаман"] %}
+                <option value="{{ cls }}" {% if request.args.get('class') == cls %}selected{% endif %}>{{ cls }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>
+        Раса:
+        <select name="race">
+            <option value="">Любая</option>
+            {% for rc in ["Человек","Орк","Эльф","Дворф","Таурен","Гном","Тролль","Нежить"] %}
+                <option value="{{ rc }}" {% if request.args.get('race') == rc %}selected{% endif %}>{{ rc }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>
+        Уровень:
+        <input type="number" name="level_min" placeholder="от" min="1" max="60" value="{{ request.args.get('level_min','') }}">
+        <input type="number" name="level_max" placeholder="до" min="1" max="60" value="{{ request.args.get('level_max','') }}">
+    </label>
+
+    <div class="filter-buttons">
+        <button type="submit">Найти</button>
+        <a href="{{ url_for('accounts') }}" class="reset-btn">Очистить</a>
+    </div>
+</form>
+
+<!-- Таблица -->
+<table class="offers">
+    <tr>
+        <th>Сервер</th>
+        <th>Фракция</th>
+        <th>Класс</th>
+        <th>Раса</th>
+        <th>Уровень</th>
+        <th>Описание</th>
+        <th>Продавец</th>
+        <th>Цена</th>
+    </tr>
+    {% for acc in accounts %}
+    <tr>
+        <td>{{ acc.server }}</td>
+        <td>{{ acc.faction }}</td>
+        <td>{{ acc.class }}</td>
+        <td>{{ acc.race }}</td>
+        <td>{{ acc.level }}</td>
+        <td>{{ acc.desc }}</td>
+        <td>{{ acc.seller }}</td>
+        <td>{{ acc.price }} ₽</td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="8" style="text-align:center;">Нет аккаунтов по данному фильтру</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

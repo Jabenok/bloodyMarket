@@ -1,0 +1,114 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #333;
+}
+
+/* Хедер */
+header {
+    background: #b30000;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-left a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.nav-left a:hover {
+    color: #ffcccc;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: #b30000;
+    background: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.nav-right a:hover {
+    background: #ffcccc;
+    color: #800000;
+}
+
+/* Контент */
+main {
+    min-height: 500px;
+    padding: 40px;
+}
+
+/* Таблицы */
+table.offers {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table.offers th, table.offers td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table.offers th {
+    background: #f5f5f5;
+}
+
+/* Футер */
+footer {
+    background-color: #b30000;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+/* Кнопки фильтров */
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.filters button {
+    padding: 8px 16px;
+    background: #b30000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filters button:hover {
+    background: #800000;
+}
+
+.reset-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    background: #ccc;
+    color: black;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.reset-btn:hover {
+    background: #999;
+    color: white;
+}
+
