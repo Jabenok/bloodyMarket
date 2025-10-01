@@ -1,23 +1,44 @@
+/* Основные настройки для "липкого" футера */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #fff;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* чтобы body занимал всю высоту экрана */
 }
 
+main {
+    flex: 1;
+    padding: 100px 40px 40px 40px; /* 100px = высота хедера + запас */
+}
+
+
 /* Хедер */
+/* Фиксированный хедер */
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     background: #b30000;
     color: white;
-    padding: 15px 40px;
+    padding: 15px 20px; /* чуть меньше, чтобы помещалось */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transform: translateY(-100%);
+    animation: slideDown 0.5s forwards;
+    box-sizing: border-box; /* важно для правильного подсчёта ширины */
 }
 
-.nav-left {
+.nav-left, .nav-right {
     display: flex;
-    gap: 30px;
+    align-items: center;
+    gap: 15px;
 }
 
 .nav-left a {
@@ -31,6 +52,7 @@ header {
     color: #ffcccc;
 }
 
+/* Кнопка входа */
 .nav-right a {
     text-decoration: none;
     color: #b30000;
@@ -39,6 +61,7 @@ header {
     border-radius: 8px;
     font-weight: bold;
     transition: 0.3s;
+    white-space: nowrap; /* чтобы текст кнопки не переносился */
 }
 
 .nav-right a:hover {
@@ -46,11 +69,17 @@ header {
     color: #800000;
 }
 
-/* Контент */
-main {
-    min-height: 500px;
-    padding: 40px;
+/* Анимация хедера */
+@keyframes slideDown {
+    to { transform: translateY(0); }
 }
+
+/* Контент с отступом сверху */
+main {
+    flex: 1;
+    padding: 100px 20px 40px 20px; /* учитываем фиксированный хедер */
+}
+
 
 /* Таблицы */
 table.offers {
@@ -112,3 +141,172 @@ footer {
     color: white;
 }
 
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: #fff0f0;
+    text-align: center;
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+    color: #b30000;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-container input {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.auth-container button {
+    padding: 12px;
+    background: #b30000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-container button:hover {
+    background: #800000;
+}
+
+.auth-container p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.auth-container p a {
+    color: #b30000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-container p a:hover {
+    text-decoration: underline;
+}
+
+p.success {
+    color: green;
+}
+
+p.error {
+    color: red;
+}
+.flash-messages {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* по центру формы */
+    margin-bottom: 15px; /* чуть выше формы */
+}
+
+.flash {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    animation: fadeInOut 4s forwards;
+}
+
+.flash.success {
+    background-color: #28a745;
+}
+
+.flash.error {
+    background-color: #dc3545;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Профиль */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 40px;
+}
+
+.profile-card {
+    background: #fff0f0;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.profile-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #b30000;
+    margin-bottom: 20px;
+}
+
+.profile-info h2 {
+    color: #b30000;
+    margin-bottom: 10px;
+}
+
+.profile-info p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.profile-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.profile-actions a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+    color: white;
+}
+
+.btn-edit {
+    background-color: #b30000;
+}
+
+.btn-edit:hover {
+    background-color: #800000;
+}
+
+.btn-logout {
+    background-color: #ccc;
+    color: black;
+}
+
+.btn-logout:hover {
+    background-color: #999;
+    color: white;
+}

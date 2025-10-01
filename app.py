@@ -1,18 +1,73 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, flash, redirect, url_for
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from models import User
+from database import db
+import config
 
 app = Flask(__name__)
+app.secret_key = config.Config.SECRET_KEY
+
+# Настройка Flask-Login
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_by_id(user_id)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        login_value = request.form["username"]
+        password = request.form["password"]
+
+        user = User.get_by_credentials(login_value, password)
+
+        if user:
+            login_user(user)
+            session["user_id"] = user.id
+            session["login"] = user.name
+            flash("Вы успешно вошли!", "success")
+            return redirect(url_for("index"))
+        else:
+            flash("Неверный логин или пароль", "error")
+            return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        login_value = request.form["username"]
+        password = request.form["password"]
+
+        if User.get_by_username(login_value):
+            flash("Пользователь с таким логином уже существует", "error")
+            return redirect(url_for("register"))
+
+        User.create(login_value, password)
+        flash("Регистрация прошла успешно!", "success")
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+    flash("Вы вышли из системы", "success")
+    return redirect(url_for("index"))
 
 # Тестовые данные аккаунтов
 ACCOUNTS = [
     {"server": "Firemaw (EU)", "faction": "Альянс", "class": "Воин", "race": "Человек", "level": 60, "desc": "Эпический гир, готов к рейдам", "seller": "PlayerOne", "price": 3000},
     {"server": "Gehennas (EU)", "faction": "Орда", "class": "Маг", "race": "Орк", "level": 60, "desc": "Рейдовый шмот, MC/BWL", "seller": "BestSeller", "price": 4500},
-    {"server": "Mirage Raceway (EU)", "faction": "Альянс", "class": "Жрец", "race": "Эльф", "level": 45, "desc": "Хороший хил для данжей", "seller": "HealerPro", "price": 2000},
-    {"server": "Firemaw (EU)", "faction": "Орда", "class": "Разбойник", "race": "Нежить", "level": 50, "desc": "PvP шмот, готов к BG", "seller": "StealthMaster", "price": 2500},
 ]
-
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 @app.route("/accounts")
 def accounts():
@@ -51,5 +106,10 @@ def gold():
 def services():
     return render_template("services.html")
 
-if __name__ == "__main__":
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html")
+
+if __name__ == '__main__':
     app.run(debug=True)

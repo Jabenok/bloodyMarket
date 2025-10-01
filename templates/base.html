@@ -1,34 +1,45 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}BLOODYMARKET{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}BLOODYMARKET{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
 
-    <!-- Хедер -->
-    <header>
-        <div class="nav-left">
-            <a href="{{ url_for('index') }}">BLOODYMARKET</a>
-            <a href="{{ url_for('accounts') }}">Аккаунты</a>
-            <a href="{{ url_for('gold') }}">Золото</a>
-            <a href="{{ url_for('services') }}">Услуги</a>
+        <!-- Хедер -->
+        <header>
+            <div class="nav-left">
+                <a href="{{ url_for('index') }}">BLOODYMARKET</a>
+                <a href="{{ url_for('accounts') }}">Аккаунты</a>
+                <a href="{{ url_for('gold') }}">Золото</a>
+                <a href="{{ url_for('services') }}">Услуги</a>
+            </div>
+            <div class="nav-right">
+                <a href="{{ url_for('login') }}">Войти</a>
+            </div>
+        </header>
+
+        <!-- Flash-сообщения -->
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
         </div>
-        <div class="nav-right">
-            <a href="#">Войти / Зарегистрироваться</a>
-        </div>
-    </header>
 
-    <!-- Контент -->
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+        <!-- Контент -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
 
-    <!-- Футер -->
-    <footer>
-        <p>&copy; 2025 BLOODYMARKET. Все права защищены.</p>
-    </footer>
+        <!-- Футер -->
+        <footer>
+            <p>&copy; 2025 BLOODYMARKET. Все права защищены.</p>
+        </footer>
 
-</body>
-</html>
+    </body>
+    </html>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль - BLOODYMARKET{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-avatar">
+            <img src="{{ url_for('static', filename='avatar.png') }}" alt="Аватар">
+        </div>
+        <div class="profile-info">
+            <h2>{{ user.username }}</h2>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Баланс:</strong> {{ user.balance }} золота</p>
+            <p><strong>Дата регистрации:</strong> {{ user.registered_at.strftime('%d.%m.%Y') }}</p>
+        </div>
+        <div class="profile-actions">
+            <a href="{{ url_for('edit_profile') }}" class="btn-edit">Редактировать профиль</a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Выйти</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
